@@ -2,9 +2,11 @@ let array = [];
 let backgroundColor = 200;
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
-  background(backgroundColor);
+  // createCanvas(windowWidth, windowHeight);
+  createCanvas(600, 600);
+  // background(backgroundColor);
 
+  drawGrid();
   strokeWeight(5);
   noFill();
 
@@ -12,7 +14,7 @@ function setup() {
 
 function draw() {
 
-  if (mouseIsPressed == true) {
+  if (mouseIsPressed) {
     // stroke(map(mouseX, 0, 600, 0, 255, true));
     // line(width - mouseX, height - mouseY, width - pmouseX, height - pmouseY);
     // line(mouseX, mouseY, pmouseX, pmouseY);
@@ -62,9 +64,19 @@ function keyTyped() {
   return false;
 }
 
-function mousePressed(){
+function mousePressed() {
   // console.log("mouse pressed function");
   array = [];
   // console.log(array);
   backgroundColor = 255;
+}
+
+function drawGrid() {
+  numCells = 20;
+
+  for (let i = 0; i <= width; i += width / numCells) {
+    for (let j = 0; j <= height; j += height / numCells) {
+      rect(i, j, width / numCells, height / numCells);
+    }
+  }
 }

@@ -11,12 +11,12 @@ body {
 }
 
 canvas {
-  /* margin: 0 auto 0 auto; */
-  margin: auto;
+  margin: 0 auto 0 auto;
+  /* margin: auto;
   left: 0;
   top: 0;
   position:absolute;
-  z-index: -1;
-  /* display: block;
-  border: 5px solid black; */
+  z-index: -1; */
+  display: block;
+  border: 5px solid black;
 }
