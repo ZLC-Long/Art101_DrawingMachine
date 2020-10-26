@@ -7,7 +7,6 @@ function setup() {
   // background(backgroundColor);
 
   drawGrid();
-  strokeWeight(5);
   noFill();
 
 }
@@ -73,10 +72,20 @@ function mousePressed() {
 
 function drawGrid() {
   numCells = 20;
-
+  fillClr = 255;
+  // noStroke();
+  strokeWeight(0);
+  
   for (let i = 0; i <= width; i += width / numCells) {
     for (let j = 0; j <= height; j += height / numCells) {
+      if (fillClr === 255) {
+        fillClr = 200;
+      } else {
+        fillClr = 255;
+      }
+      fill(fillClr);
       rect(i, j, width / numCells, height / numCells);
     }
   }
+  strokeWeight(5);
 }
