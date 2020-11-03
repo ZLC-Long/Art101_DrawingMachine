@@ -1,70 +1,85 @@
-let array = [];
-let backgroundColor = 200;
+let colorPicker;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  background(backgroundColor);
+  background('#e8dc8e');
+  dstn = 10;
+  sprng = 0.5;
+  frctn = 0.5;
 
-  strokeWeight(5);
-  noFill();
+  // brush color picker
+  colorPicker = createColorPicker('#000000');
+  colorPicker.position(windowWidth / 6, height / 3);
+  colorPicker;
 
+  mX = mY = x = y = ax = ay = r = f = 0;
 }
 
 function draw() {
 
-  if (mouseIsPressed == true) {
-    // stroke(map(mouseX, 0, 600, 0, 255, true));
-    // line(width - mouseX, height - mouseY, width - pmouseX, height - pmouseY);
-    // line(mouseX, mouseY, pmouseX, pmouseY);
-    backgroundColor -= 5;
-    background(backgroundColor);
-    // line(mouseX, mouseY, pmouseX, pmouseY);
-    array.push([mouseX, mouseY]);
-
-    beginShape();
-    for (let i = 0; i < array.length - 1; i++) {
-      // console.log(i);
-      // line(array[i][0], array[i][1], array[i + 1][0], array[i + 1][1]);
-      curveVertex(array[i][0], array[i][1])
-    }
-    endShape();
-    // line(array[0][0], array[1][1], array[2][0], array[2][1]);
+  if (key === '1') {
+    draw1();
   }
+  if (key === '2') {
+    draw2();
+  }
+}
 
+function draw1() {
+  if (mouseIsPressed) {
+    noStroke();
+    for (let i = 0; i <= 8; i += .5) {
+      fill(0, 0, 0, i);
+      ellipse(mouseX, mouseY, 10 * i, 10 * i);
+    }
+  }
+}
+
+function draw2() {
+  oldR = r;
+  if (mouseIsPressed) {
+    mX = mouseX;
+    mY = mouseY;
+    if (!f) {
+      f = 1;
+      x = mX;
+      y = mY;
+    }
+    ax += (mX - x) * sprng;
+    ay += (mY - y) * sprng;
+    ax *= frctn;
+    ay *= frctn;
+    r = 25 - sqrt(ax * ax + ay * ay) * 0.7;
+
+    for (i = 0; i < dstn; i++) {
+      oldX = x;
+      oldY = y;
+      x += ax / dstn;
+      y += ay / dstn;
+      oldR += (r - oldR) / dstn;
+      strokeWeight(oldR);
+      //change brush color
+      stroke(colorPicker.color())
+      line(x, y, oldX, oldY);
+
+    }
+  } else if (f) {
+    ax = ay = f = 0;
+  }
 }
 
 function keyTyped() {
+  if (key === 'c') {
+    clear();
+    background('#e8dc8e');
 
-  // console.log(`key ${key} is being typed`);
-  // console.log("key " + key + " is being typed");
-  if (key === 's') {
-
-    // console.log(`key s is being typed`)
+  } else if (key === 's') {
     saveCanvas('fileName', 'png');
-  } else if (key === 'd') {
-    // display image
-    // console.log(array);
-    // console.log(array[0]);
-    // console.log(array[0][1]);
-    background(255);
-
-    beginShape();
-    for (let i = 0; i < array.length - 1; i++) {
-      // console.log(i);
-      // line(array[i][0], array[i][1], array[i + 1][0], array[i + 1][1]);
-      curveVertex(array[i][0], array[i][1])
-    }
-    endShape();
-    // line(array[0][0], array[1][1], array[2][0], array[2][1]);
-
   }
-
   return false;
 }
 
-function mousePressed(){
-  // console.log("mouse pressed function");
-  array = [];
-  // console.log(array);
-  backgroundColor = 255;
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight);
+  background('#e8dc8e');
 }
